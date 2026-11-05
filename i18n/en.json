@@ -1,0 +1,12 @@
+{
+  "badge.default": "Default",
+  "user.default": "User",
+  "tier.suffix": "Tier",
+  "limits.remaining": "left",
+  "limits.resets": "Resets:",
+  "limits.no_limits": "No active quotas found",
+  "actions.launch": "Launch Koda",
+  "actions.refresh": "Refresh",
+  "status.not_authenticated": "Authentication required (`koda`)",
+  "status.offline": "Cached data"
+}

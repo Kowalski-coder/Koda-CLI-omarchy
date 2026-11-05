@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "koda",
+  "name": "Koda CLI",
+  "version": "1.0.0",
+  "author": "Kowalski-coder",
+  "license": "MIT",
+  "description": "Monitor quotas, limits, and quickly launch the Koda CLI AI agent from the Omarchy bar.",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Koda CLI",
+    "description": "Koda status icon with quota breakdown and quick agent launcher",
+    "category": "AI",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}

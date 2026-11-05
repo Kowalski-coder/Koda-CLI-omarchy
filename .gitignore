@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.tmp
+
+# Omarchy local cache and backups
+*.bak
+.cache/
+
+# OS / Editor artifacts
+.DS_Store
+Thumbs.db
+*.swp
+*~

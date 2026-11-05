@@ -1,0 +1,12 @@
+{
+  "badge.default": "По умолчанию",
+  "user.default": "Пользователь",
+  "tier.suffix": "уровень",
+  "limits.remaining": "ост.",
+  "limits.resets": "Сброс:",
+  "limits.no_limits": "Нет активных квот",
+  "actions.launch": "Запустить Koda",
+  "actions.refresh": "Обновить",
+  "status.not_authenticated": "Требуется авторизация (koda)",
+  "status.offline": "Кэшированные данные"
+}
