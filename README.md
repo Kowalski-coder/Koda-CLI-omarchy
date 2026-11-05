@@ -79,6 +79,22 @@ omarchy plugin remove koda
 - **Refresh button (󰑐)** inside the panel: Force an immediate live quota refresh.
 - **Launch button (󰌑)**: Open Koda CLI terminal session.
 
+### Set Koda as Default Agent (Optional)
+
+If you wish to set Koda as your primary coding agent in Omarchy, run:
+
+```bash
+mkdir -p ~/.config/omarchy/defaults
+echo "koda" > ~/.config/omarchy/defaults/agent
+```
+
+Once configured, the widget automatically detects this and displays a **Default** badge in the popup header.
+
+To check your current default agent:
+```bash
+cat ~/.config/omarchy/defaults/agent
+```
+
 ### Shell IPC Controls
 
 You can trigger widget actions using Omarchy's Shell IPC:
