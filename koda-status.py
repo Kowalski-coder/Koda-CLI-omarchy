@@ -8,6 +8,7 @@ Supports automatic token refresh via deviceCode, persistent caching, and multili
 import sys
 import os
 import json
+import tempfile
 import urllib.request
 import urllib.error
 from datetime import datetime, timezone
@@ -146,11 +147,20 @@ def refresh_token(base_url, device_code, creds_path, creds_data):
                 kauth["linked"] = data["linked"]
 
             try:
-                tmp_path = creds_path + ".tmp"
-                fd = os.open(tmp_path, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
-                with open(fd, "w", encoding="utf-8") as f:
+                creds_dir = os.path.dirname(creds_path)
+                with tempfile.NamedTemporaryFile("w", dir=creds_dir, delete=False, encoding="utf-8") as f:
+                    os.fchmod(f.fileno(), 0o600)
                     json.dump(creds_data, f, indent=2, ensure_ascii=False)
-                os.replace(tmp_path, creds_path)
+                    tmp_name = f.name
+                os.chmod(tmp_name, 0o600)
+                os.replace(tmp_name, creds_path)
+
+                legacy_tmp = creds_path + ".tmp"
+                if os.path.exists(legacy_tmp):
+                    try:
+                        os.unlink(legacy_tmp)
+                    except Exception:
+                        pass
             except Exception:
                 pass
 
@@ -168,9 +178,8 @@ def save_cache(raw_pools, extra_balance, tier, user, email):
         except Exception:
             pass
 
-        tmp = CACHE_FILE + ".tmp"
-        fd = os.open(tmp, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
-        with open(fd, "w", encoding="utf-8") as f:
+        with tempfile.NamedTemporaryFile("w", dir=cache_dir, delete=False, encoding="utf-8") as f:
+            os.fchmod(f.fileno(), 0o600)
             json.dump(
                 {
                     "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -184,7 +193,16 @@ def save_cache(raw_pools, extra_balance, tier, user, email):
                 indent=2,
                 ensure_ascii=False,
             )
-        os.replace(tmp, CACHE_FILE)
+            tmp_name = f.name
+        os.chmod(tmp_name, 0o600)
+        os.replace(tmp_name, CACHE_FILE)
+
+        legacy_cache_tmp = CACHE_FILE + ".tmp"
+        if os.path.exists(legacy_cache_tmp):
+            try:
+                os.unlink(legacy_cache_tmp)
+            except Exception:
+                pass
     except Exception:
         pass
 
