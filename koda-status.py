@@ -147,7 +147,8 @@ def refresh_token(base_url, device_code, creds_path, creds_data):
 
             try:
                 tmp_path = creds_path + ".tmp"
-                with open(tmp_path, "w", encoding="utf-8") as f:
+                fd = os.open(tmp_path, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+                with open(fd, "w", encoding="utf-8") as f:
                     json.dump(creds_data, f, indent=2, ensure_ascii=False)
                 os.replace(tmp_path, creds_path)
             except Exception:
@@ -160,9 +161,16 @@ def refresh_token(base_url, device_code, creds_path, creds_data):
 
 def save_cache(raw_pools, extra_balance, tier, user, email):
     try:
-        os.makedirs(os.path.dirname(CACHE_FILE), exist_ok=True)
+        cache_dir = os.path.dirname(CACHE_FILE)
+        os.makedirs(cache_dir, mode=0o700, exist_ok=True)
+        try:
+            os.chmod(cache_dir, 0o700)
+        except Exception:
+            pass
+
         tmp = CACHE_FILE + ".tmp"
-        with open(tmp, "w", encoding="utf-8") as f:
+        fd = os.open(tmp, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+        with open(fd, "w", encoding="utf-8") as f:
             json.dump(
                 {
                     "timestamp": datetime.now(timezone.utc).isoformat(),
